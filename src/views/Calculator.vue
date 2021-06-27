@@ -11,10 +11,10 @@
                         <ion-col
                             class="ion-text-end"
                         >
-                        <h2>Total: {{tsedFormatted(total)}} EUR/Kg</h2>
+                        <h2>Total: {{tsetFormatted(total)}} EUR/Kg</h2>
                         </ion-col>
                     </ion-row>
-                    <ion-row v-for="(element, index) in tsedForm" 
+                    <ion-row v-for="(element, index) in tsetForm" 
                         :key="index"
                         class="ion-align-items-center ion-padding-start"
                         :class="{'isSelected': frontEnd.hovered === index}"
@@ -22,7 +22,7 @@
                         @mouseleave="frontEnd.hovered = -1"
                     >
                         <div v-if="(frontEnd.hovered === index && index > 0)"
-                            class="tsed-icon erase clickable"
+                            class="tset-icon erase clickable"
                             @click="deletion(index)"
                         >
                             <ion-icon
@@ -55,7 +55,7 @@
                                     >
                                         <div 
                                             v-if="frontEnd.showEditIcon === index  && index > 0"
-                                            class="clickable tsed-icon edit"
+                                            class="clickable tset-icon edit"
                                             @click="switchToEdit(index, $event)"
                                         > 
                                             <ion-icon 
@@ -156,7 +156,7 @@ export default defineComponent({
     },
     setup () {
 
-        const {tsedForm, fetchFormData} = useData();
+        const {tsetForm, fetchFormData} = useData();
         const frontEnd = ref<frontEndType>();
         const ghost = ref<Entry>({
             label: '',
@@ -174,14 +174,14 @@ export default defineComponent({
         });
 
         const domRefList = computed(() => 
-            (tsedForm.value) ? ref(tsedForm.value.map((a, index) => index)) : ref([])
+            (tsetForm.value) ? ref(tsetForm.value.map((a, index) => index)) : ref([])
         );
 
         const total = computed((): number | null => 
-            (tsedForm.value) ? tsedForm.value.map(a => a.value).reduce((a, b) => Number(a) + Number(b), 0) : null
+            (tsetForm.value) ? tsetForm.value.map(a => a.value).reduce((a, b) => Number(a) + Number(b), 0) : null
         );
 
-        const tsedFormatted = (value?: string | number | null): string => {
+        const tsetFormatted = (value?: string | number | null): string => {
             if (!value) {
                 return "0.0";
             }
@@ -195,9 +195,9 @@ export default defineComponent({
         };
 
         const valueSet = computed(() =>  {
-            return (tsedForm.value) ? tsedForm.value.map((a, index) => {
+            return (tsetForm.value) ? tsetForm.value.map((a, index) => {
                 if (frontEnd.value) {
-                    return (frontEnd.value.focusedValue === index) ? a.value : tsedFormatted(a.value);
+                    return (frontEnd.value.focusedValue === index) ? a.value : tsetFormatted(a.value);
                 }
             }): [];
         });
@@ -212,9 +212,9 @@ export default defineComponent({
 
 
         const labelEdit = (target: number, event: any) => {
-            if (tsedForm.value && frontEnd.value) {
+            if (tsetForm.value && frontEnd.value) {
                 if (event.target.value) {
-                        tsedForm.value[target].label = event.target.value;
+                        tsetForm.value[target].label = event.target.value;
                 }
                 frontEnd.value.editMode = -1;
             }
@@ -229,8 +229,8 @@ export default defineComponent({
         };
 
         const dataBack = (target: number, event: any): void => {
-            if (tsedForm.value && !isNaN(event.target.value)) {
-                tsedForm.value[target].value = Number(event.target.value);
+            if (tsetForm.value && !isNaN(event.target.value)) {
+                tsetForm.value[target].value = Number(event.target.value);
             }
         };
 
@@ -276,8 +276,8 @@ export default defineComponent({
                         ...ghost.value
                     });
 
-                if (tsedForm.value) {
-                    tsedForm.value.push(newElement.value);
+                if (tsetForm.value) {
+                    tsetForm.value.push(newElement.value);
                 }
 
                     ghost.value.label = '';
@@ -285,13 +285,13 @@ export default defineComponent({
         };
 
         const deletion = (target: number): void => {
-            if (tsedForm.value) {
-                tsedForm.value.splice(target, 1);
+            if (tsetForm.value) {
+                tsetForm.value.splice(target, 1);
             }
         };
 
         return {
-            tsedForm,
+            tsetForm,
             frontEnd,
             labelEdit,
             switchToEdit,
@@ -299,7 +299,7 @@ export default defineComponent({
             domRefs,
             dataBack,
             valueSet,
-            tsedFormatted,
+            tsetFormatted,
             forbidden,
             closeCircle,
             create,
@@ -373,7 +373,7 @@ input[type=number]::-webkit-outer-spin-button {
     z-index: 100;
 }
 
-.tsed-icon {
+.tset-icon {
     position : absolute;
     background : transparent;
     width: 25px;

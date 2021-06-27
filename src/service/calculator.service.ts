@@ -1,14 +1,14 @@
 import { Entries } from "@/types/entries.model";
 import { ref } from "vue";
 
-/* const calcURL = 'https://calcdata.tsed.com'; */
+/* const calcURL = 'https://calcdata.tset.com'; */
 
-const tsedForm = ref<Entries>();
+const tsetForm = ref<Entries>();
 
 async function fetchFormData() {
 /*     const response = await fetch('${calcURL}');
-    tsedForm.value = await response.json(); */
-    tsedForm.value = [
+    tsetForm.value = await response.json(); */
+    tsetForm.value = [
         {
             label : 'Baseprice',
             value : 1
@@ -19,7 +19,7 @@ async function fetchFormData() {
 
 export function useData() {
     return {
-        tsedForm,
+        tsetForm,
         fetchFormData
     }
 }
