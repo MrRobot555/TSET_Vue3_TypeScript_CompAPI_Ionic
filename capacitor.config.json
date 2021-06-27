@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "tsed-ts-vue3-ionic",
+	"webDir": "dist",
+	"bundledWebRuntime": false
+}

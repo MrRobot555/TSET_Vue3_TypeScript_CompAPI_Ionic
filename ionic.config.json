@@ -1,0 +1,7 @@
+{
+  "name": "tsed-ts-vue3-ionic",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue"
+}
