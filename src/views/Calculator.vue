@@ -1,128 +1,128 @@
 <template>
-    <div>
-     <ion-grid>
-         <ion-row>
-            <ion-col size="4" class="ion-align-self-center" offset="4">
-                <div class="main">
-                    <div class="main-title"><h2>Price Components</h2></div>
-                    <ion-row
-                        class="ion-margin"
-                    >
-                        <ion-col
-                            class="ion-text-end"
-                        >
-                        <h2>Total: {{tsetFormatted(total)}} EUR/Kg</h2>
-                        </ion-col>
-                    </ion-row>
-                    <ion-row v-for="(element, index) in tsetForm" 
-                        :key="index"
-                        class="ion-align-items-center ion-padding-start"
-                        :class="{'isSelected': frontEnd.hovered === index}"
-                        @mouseover="frontEnd.hovered = index"
-                        @mouseleave="frontEnd.hovered = -1"
-                    >
-                        <div v-if="(frontEnd.hovered === index && index > 0)"
-                            class="tset-icon erase clickable"
-                            @click="deletion(index)"
-                        >
-                            <ion-icon
-                                class="icon-inner"
-                                :icon="closeCircle.ios"
-                            ></ion-icon>
-                        </div>
-                        <ion-col size="6" >
-                            <template v-if="frontEnd.editMode === index">
-                                <ion-input
-                                    :ref="el => { domRefs[index.toString()+'-label'] = el }"
-                                    @blur="frontEnd.editMode = -1"
-                                    @change="labelEdit(index, $event)"
-                                    type="text"
-                                    class="ion-text-start ion-padding-end"
-                                    :value="element.label"
-                                    :id="index.toString()+'-label'"
-                                    autocomplete="off"
-                                    >
-                                </ion-input>
-                            </template>
-                            <template v-else>
-
-                                    <div
-                                        class="unbordered ion-text-start ellipsis"
-                                        @mouseover="frontEnd.showEditIcon = index"
-                                        @mouseleave="frontEnd.showEditIcon = -1"
-                                        :id="index+'-label'"
-                                        tooltip="{{ element.label }}"
-                                    >
-                                        <div 
-                                            v-if="frontEnd.showEditIcon === index  && index > 0"
-                                            class="clickable tset-icon edit"
-                                            @click="switchToEdit(index, $event)"
-                                        > 
-                                            <ion-icon 
-                                                :icon="create.ios"
-                                                class="icon-inner"
-                                            ></ion-icon>
-                                        </div>
-                                        {{element.label}}
-                                    </div>
-
-                            </template>
-                        </ion-col>
-                        <ion-col size="6">
-                            <ion-input
-                                :ref="el => { domRefs[index.toString()+'-value'] = el }"
-                                @ionFocus="frontEnd.focusedValue = index"
-                                @ionBlur="frontEnd.editMode = -1; frontEnd.focusedValue = -1"
-                                @ionChange="frontEnd.editMode = -1"
-                                type = "number"
-                                inputmode = "decimal"
-                                class="ion-text-end ion-padding-end input-style" 
-                                :value="valueSet[index]"
-                                @ionInput="dataBack(index, $event)"
-                                :id="index.toString()"
-                                autocomplete="off"
-                                placeholder="0.0"
-                                @keyup="forbidden"
-                            >
-
-                            </ion-input>
-                        </ion-col>
-                    </ion-row>
-                    <ion-row
-                        class="ion-align-items-center ion-padding-start"
-                    >
-                        <ion-col size="6">
-                            <ion-input
-                                class="ghost"
-                                id="ghost-label"
-                                for="ghost-value"
-                                placeholder="Label"
-                                autocomplete="off"
-                                v-model="ghost.label"
-                                @change="ghostInput"
-                            >
-                            </ion-input>
-                        </ion-col>
-                        <ion-col size="6">
-                            <ion-input
-                                type="number"
-                                class="ion-text-end ion-padding-end ghost"
-                                min="0"
-                                v-model="ghost.value"
-                                autocomplete="off"
-                                placeholder="0.0"
-                                @change="ghostInput"
-                                @keyup="forbidden"
-                            >
-                            </ion-input>
-                        </ion-col>
-
-                    </ion-row>
-                </div>
-            </ion-col>
-         </ion-row>
-     </ion-grid>
-    </div>
+  <div>
+    <ion-grid>
+      <ion-row>
+        <ion-col
+          size="4"
+          class="ion-align-self-center"
+          offset="4"
+        >
+          <div class="main">
+            <div class="main-title">
+              <h2>Price Components</h2>
+            </div>
+            <ion-row
+              class="ion-margin"
+            >
+              <ion-col
+                class="ion-text-end"
+              >
+                <h2>Total: {{ tsetFormatted(total) }} EUR/Kg</h2>
+              </ion-col>
+            </ion-row>
+            <ion-row
+              v-for="(element, index) in tsetForm" 
+              :key="index"
+              class="ion-align-items-center ion-padding-start"
+              :class="{'isSelected': frontEnd.hovered === index}"
+              @mouseover="frontEnd.hovered = index"
+              @mouseleave="frontEnd.hovered = -1"
+            >
+              <div
+                v-if="(frontEnd.hovered === index && index > 0)"
+                class="tset-icon erase clickable"
+                @click="deletion(index)"
+              >
+                <ion-icon
+                  class="icon-inner"
+                  :icon="closeCircle.ios"
+                />
+              </div>
+              <ion-col size="6">
+                <template v-if="frontEnd.editMode === index">
+                  <ion-input
+                    :id="index.toString()+'-label'"
+                    :ref="el => { domRefs[index.toString()+'-label'] = el }"
+                    type="text"
+                    class="ion-text-start ion-padding-end"
+                    :value="element.label"
+                    autocomplete="off"
+                    @blur="frontEnd.editMode = -1"
+                    @change="labelEdit(index, $event)"
+                  />
+                </template>
+                <template v-else>
+                  <div
+                    :id="index+'-label'"
+                    class="unbordered ion-text-start ellipsis"
+                    tooltip="{{ element.label }}"
+                    @mouseover="frontEnd.showEditIcon = index"
+                    @mouseleave="frontEnd.showEditIcon = -1"
+                  >
+                    <div 
+                      v-if="frontEnd.showEditIcon === index && index > 0"
+                      class="clickable tset-icon edit"
+                      @click="switchToEdit(index, $event)"
+                    > 
+                      <ion-icon 
+                        :icon="create.ios"
+                        class="icon-inner"
+                      />
+                    </div>
+                    {{ element.label }}
+                  </div>
+                </template>
+              </ion-col>
+              <ion-col size="6">
+                <ion-input
+                  :id="index.toString()"
+                  :ref="el => { domRefs[index.toString()+'-value'] = el }"
+                  type="number"
+                  inputmode="decimal"
+                  class="ion-text-end ion-padding-end input-style"
+                  :value="valueSet[index]"
+                  autocomplete="off" 
+                  placeholder="0.0"
+                  @ionFocus="frontEnd.focusedValue = index"
+                  @ionBlur="frontEnd.editMode = -1; frontEnd.focusedValue = -1"
+                  @ionChange="frontEnd.editMode = -1"
+                  @ionInput="dataBack(index, $event)"
+                  @keyup="forbidden"
+                />
+              </ion-col>
+            </ion-row>
+            <ion-row
+              class="ion-align-items-center ion-padding-start"
+            >
+              <ion-col size="6">
+                <ion-input
+                  id="ghost-label"
+                  v-model="ghost.label"
+                  class="ghost"
+                  for="ghost-value"
+                  placeholder="Label"
+                  autocomplete="off"
+                  @change="ghostInput"
+                />
+              </ion-col>
+              <ion-col size="6">
+                <ion-input
+                  v-model="ghost.value"
+                  type="number"
+                  class="ion-text-end ion-padding-end ghost"
+                  min="0"
+                  autocomplete="off"
+                  placeholder="0.0"
+                  @change="ghostInput"
+                  @keyup="forbidden"
+                />
+              </ion-col>
+            </ion-row>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
 </template>
 
 <script lang="ts">
